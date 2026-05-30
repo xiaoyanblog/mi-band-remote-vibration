@@ -12,11 +12,15 @@
 
 ## 安装
 
-可直接使用仓库内的安装包：
+可优先使用仓库内由 `zeus preview` 生成的预览包：
+
+`release/mi-band-remote-vibration-1.0.6-preview.zab`
+
+如果你的安装方式只接受 `.zpk`，可以再尝试：
 
 `release/mi-band-remote-vibration-1.0.6-preview.zpk`
 
-在 Zepp App 开发者模式中扫码安装即可。
+根据 Zepp 官方文档，真机预览推荐使用 `zeus preview` 生成的二维码在 Zepp App 开发者模式中扫码安装。
 
 ## 构建
 
@@ -26,6 +30,12 @@ npm run build:bari
 ```
 
 构建产物会生成在 `dist/` 目录下。
+
+真机预览建议执行：
+
+```bash
+zeus preview -t bari
+```
 
 ## 说明
 
