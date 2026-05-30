@@ -12,11 +12,13 @@
 
 ## 安装
 
-可优先使用仓库内由 `zeus preview` 生成的预览包：
+当前用于排查连接问题的推荐测试包：
 
-`release/mi-band-remote-vibration-1.0.8-preview.zab`
+`release/mi-band-remote-vibration-1.0.9-original-device.zpk`
 
-如果你的安装方式只接受 `.zpk`，可以再尝试：
+这个版本恢复了原始设备端编译产物，只保留手机端设置页调整，用来确认连接链路是否恢复。
+
+也可以尝试由 `zeus preview` 生成的包：
 
 `release/mi-band-remote-vibration-1.0.8-preview.zpk`
 
