@@ -6,34 +6,47 @@
   const METHOD_STOP = "STOP_VIBRATE";
   const METHOD_LOCK = "LOCK_SCREEN";
 
+  const T_DEVICE = "\u8bbe\u5907\u63a7\u5236";
+  const T_LOCK = "\u9501\u5b9a\u5c4f\u5e55";
+  const T_UNLOCK = "\u89e3\u9664\u9501\u5b9a";
+  const T_PRESET = "\u5feb\u6377\u9884\u8bbe";
+  const T_SELECT = "\u9009\u62e9\u632f\u52a8\u6a21\u5f0f";
+  const T_MANUAL = "\u624b\u52a8\u5fae\u8c03";
+  const T_INPUT = "\u8bf7\u8f93\u5165\u6570\u503c";
+  const T_START = "\u5f00\u59cb\u632f\u52a8";
+  const T_STOP = "\u505c\u6b62\u632f\u52a8";
+
   const VIBRATION_PRESETS = [
-    { name: "轻微振动", value: "24" },
-    { name: "中等振动", value: "23" },
-    { name: "高强度振动", value: "25" },
-    { name: "高强度 1000ms", value: "27" },
-    { name: "高强度 600ms", value: "28" },
-    { name: "消息振动", value: "0" },
-    { name: "持续振动", value: "1" },
-    { name: "持续振动2", value: "5" },
-    { name: "强振动", value: "9" }
+    { name: "\u8f7b\u5fae\u632f\u52a8", value: "24" },
+    { name: "\u4e2d\u7b49\u632f\u52a8", value: "23" },
+    { name: "\u9ad8\u5f3a\u5ea6\u632f\u52a8", value: "25" },
+    { name: "\u9ad8\u5f3a\u5ea6 1000ms", value: "27" },
+    { name: "\u9ad8\u5f3a\u5ea6 600ms", value: "28" },
+    { name: "\u6d88\u606f\u632f\u52a8", value: "0" },
+    { name: "\u6301\u7eed\u632f\u52a8", value: "1" },
+    { name: "\u6301\u7eed\u632f\u52a82", value: "5" },
+    { name: "\u5f3a\u632f\u52a8", value: "9" }
   ];
 
   function sendAction(settingsStorage, payload) {
-    settingsStorage.setItem(KEY_ACTION, JSON.stringify({
-      ...payload,
-      ts: Date.now()
-    }));
+    payload.ts = Date.now();
+    settingsStorage.setItem(KEY_ACTION, JSON.stringify(payload));
+  }
+
+  function setLocked(settingsStorage, locked) {
+    settingsStorage.setItem(KEY_LOCKED, locked ? "true" : "false");
+    sendAction(settingsStorage, {
+      method: METHOD_LOCK,
+      value: locked ? "1" : "0"
+    });
   }
 
   AppSettingsPage({
     state: {
-      customValue: "25",
-      locked: false
+      customValue: "25"
     },
     build(props) {
-      const savedLock = props.settingsStorage.getItem(KEY_LOCKED);
       this.state.customValue = props.settingsStorage.getItem(KEY_CUSTOM) || "25";
-      this.state.locked = savedLock === "true";
 
       return View({
         style: {
@@ -52,42 +65,59 @@
           }
         }),
         Section({
-          title: "设备控制",
+          title: T_DEVICE,
           style: { background: "white", borderRadius: "12px", padding: "8px" }
         }, [
-          Toggle({
-            label: "屏幕锁定",
-            settingsKey: KEY_LOCKED,
-            value: this.state.locked,
-            onChange: (val) => {
-              const locked = !!val;
-              this.state.locked = locked;
-              props.settingsStorage.setItem(KEY_LOCKED, locked ? "true" : "false");
-              sendAction(props.settingsStorage, {
-                method: METHOD_LOCK,
-                value: locked ? "1" : "0"
-              });
+          View({
+            style: {
+              flexDirection: "row",
+              justifyContent: "space-between"
             }
-          })
+          }, [
+            Button({
+              label: T_LOCK,
+              style: {
+                width: "48%",
+                backgroundColor: "#007AFF",
+                color: "white",
+                borderRadius: "10px",
+                padding: "12px",
+                fontWeight: "bold"
+              },
+              onClick: () => setLocked(props.settingsStorage, true)
+            }),
+            Button({
+              label: T_UNLOCK,
+              style: {
+                width: "48%",
+                backgroundColor: "#8E8E93",
+                color: "white",
+                borderRadius: "10px",
+                padding: "12px",
+                fontWeight: "bold"
+              },
+              onClick: () => setLocked(props.settingsStorage, false)
+            })
+          ])
         ]),
         Section({
-          title: "快捷预设",
+          title: T_PRESET,
           style: { background: "white", borderRadius: "12px", padding: "8px", marginTop: "12px" }
         }, [
           Select({
-            label: "选择振动模式",
+            label: T_SELECT,
             options: VIBRATION_PRESETS,
             settingsKey: KEY_CUSTOM,
             value: this.state.customValue
           })
         ]),
         Section({
-          title: "手动微调",
+          title: T_MANUAL,
           style: { background: "white", borderRadius: "12px", padding: "8px", marginTop: "12px" }
         }, [
           TextInput({
             label: "Scene ID (0-28)",
-            placeholder: "请输入数值",
+            placeholder: T_INPUT,
             settingsKey: KEY_CUSTOM,
             value: this.state.customValue,
             onChange: (val) => { this.state.customValue = val; }
@@ -101,7 +131,7 @@
           }
         }, [
           Button({
-            label: "开始振动",
+            label: T_START,
             style: {
               width: "48%",
               backgroundColor: "#34C759",
@@ -119,7 +149,7 @@
             }
           }),
           Button({
-            label: "停止振动",
+            label: T_STOP,
             style: {
               width: "48%",
               backgroundColor: "#FF3B30",
