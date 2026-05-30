@@ -14,9 +14,9 @@
 
 当前用于排查连接问题的推荐测试包：
 
-`release/mi-band-remote-vibration-1.0.9-original-device.zpk`
+`release/mi-band-remote-vibration-1.0.10-byte-original-device.zpk`
 
-这个版本恢复了原始设备端编译产物，只保留手机端设置页调整，用来确认连接链路是否恢复。
+这个版本使用原始 `device.zip` 的字节内容，不解压、不重压，只保留手机端设置页调整，用来确认安装和连接链路是否恢复。
 
 也可以尝试由 `zeus preview` 生成的包：
 
