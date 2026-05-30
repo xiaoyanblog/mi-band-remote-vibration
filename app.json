@@ -1,0 +1,58 @@
+{
+  "configVersion": "v2",
+  "app": {
+    "appId": 532630,
+    "appName": "远程震动",
+    "appType": "app",
+    "version": {
+      "code": 2,
+      "name": "1.0.2"
+    },
+    "icon": "icon.png",
+    "vender": "zxxhcj",
+    "description": "远程震动 app"
+  },
+  "permissions": [],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "1.0.0",
+      "target": "1.0.1",
+      "minVersion": "1.0.0"
+    },
+    "type": 2
+  },
+  "debug": false,
+  "targets": {
+    "bari": {
+      "module": {
+        "page": {
+          "pages": [
+            "page/index"
+          ]
+        },
+        "app-side": {
+          "path": "app-side/index"
+        },
+        "setting": {
+          "path": "setting/index"
+        }
+      },
+      "platforms": [
+        {
+          "name": "Bari(国际标准版本)",
+          "deviceSource": 254
+        }
+      ],
+      "designWidth": 194
+    }
+  },
+  "i18n": {
+    "zh-CN": {
+      "appName": "远程震动"
+    },
+    "en-US": {
+      "appName": "Remote Vibration"
+    }
+  },
+  "defaultLanguage": "zh-CN"
+}
