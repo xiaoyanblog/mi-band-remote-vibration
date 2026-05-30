@@ -14,11 +14,11 @@
 
 可优先使用仓库内由 `zeus preview` 生成的预览包：
 
-`release/mi-band-remote-vibration-1.0.6-preview.zab`
+`release/mi-band-remote-vibration-1.0.7-preview.zab`
 
 如果你的安装方式只接受 `.zpk`，可以再尝试：
 
-`release/mi-band-remote-vibration-1.0.6-preview.zpk`
+`release/mi-band-remote-vibration-1.0.7-preview.zpk`
 
 根据 Zepp 官方文档，真机预览推荐使用 `zeus preview` 生成的二维码在 Zepp App 开发者模式中扫码安装。
 

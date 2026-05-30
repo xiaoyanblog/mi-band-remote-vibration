@@ -18,6 +18,7 @@ let isLocked = false;
 let modeText = null;
 let lockLayer = [];
 let vibrateSensor = null;
+let messageBuilderRef = null;
 
 function uiPx(value) {
   return value;
@@ -57,14 +58,19 @@ function drawStatus() {
     color: 0x000000
   }));
 
-  remember(hmUI.createWidget(hmUI.widget.ARC, {
-    x: uiPx(74),
-    y: uiPx(54),
-    w: uiPx(46),
-    h: uiPx(46),
-    start_angle: 0,
-    end_angle: 360,
-    line_width: uiPx(6),
+  remember(hmUI.createWidget(hmUI.widget.FILL_RECT, {
+    x: uiPx(66),
+    y: uiPx(58),
+    w: uiPx(62),
+    h: uiPx(10),
+    color: isConnected ? 0x20D060 : 0x666666
+  }));
+
+  remember(hmUI.createWidget(hmUI.widget.FILL_RECT, {
+    x: uiPx(66),
+    y: uiPx(78),
+    w: uiPx(62),
+    h: uiPx(10),
     color: isConnected ? 0x20D060 : 0x666666
   }));
 
@@ -194,19 +200,23 @@ Page({
     const app = __$$hmAppManager$$__.currentApp;
     const messageBuilder = app && app._options && app._options.globalData && app._options.globalData.messageBuilder;
     if (messageBuilder) {
+      messageBuilderRef = messageBuilder;
+      messageBuilder.off && messageBuilder.off("call");
       messageBuilder.on("call", ({ payload }) => {
         handleVibrateAction(messageBuilder.buf2Json(payload));
       });
-      messageBuilder.on("connection", () => {
+      if (messageBuilder.connect && !messageBuilder.remoteVibrationConnected) {
+        messageBuilder.remoteVibrationConnected = true;
+        messageBuilder.connect(() => {
+          isConnected = true;
+          clearWidgets();
+          drawStatus();
+        });
+      } else {
         isConnected = true;
         clearWidgets();
         drawStatus();
-      });
-      messageBuilder.connect && messageBuilder.connect(() => {
-        isConnected = true;
-        clearWidgets();
-        drawStatus();
-      });
+      }
     }
   },
   build() {
@@ -216,6 +226,9 @@ Page({
     setScreenKeep(false);
     if (vibrateSensor) {
       vibrateSensor.stop();
+    }
+    if (messageBuilderRef && messageBuilderRef.off) {
+      messageBuilderRef.off("call");
     }
     clearWidgets();
   }
