@@ -14,7 +14,7 @@
 
 可直接使用仓库内的安装包：
 
-`release/mi-band-remote-vibration-1.0.5.zpk`
+`release/mi-band-remote-vibration-1.0.6-preview.zpk`
 
 在 Zepp App 开发者模式中扫码安装即可。
 
