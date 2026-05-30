@@ -205,14 +205,7 @@ Page({
       messageBuilder.on("call", ({ payload }) => {
         handleVibrateAction(messageBuilder.buf2Json(payload));
       });
-      if (messageBuilder.connect && !messageBuilder.remoteVibrationConnected) {
-        messageBuilder.remoteVibrationConnected = true;
-        messageBuilder.connect(() => {
-          isConnected = true;
-          clearWidgets();
-          drawStatus();
-        });
-      } else {
+      if (messageBuilder.remoteVibrationConnected) {
         isConnected = true;
         clearWidgets();
         drawStatus();
